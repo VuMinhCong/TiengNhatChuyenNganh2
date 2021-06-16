@@ -1,0 +1,281 @@
+<?php
+session_start();
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['user']);
+    header("location: index.php");
+}
+ ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./assets/style.css">
+
+  <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/favicon//apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/favicon//apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/favicon//apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-8">
+        <h1 class="text-white">
+          <a href="/">Quiz Master</a>
+          </h1>
+      </div>
+      <div class="col-sm-2">
+        <p class="text-right">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="#" class="btn btn-primary" id="configuracao"><i class="fa fa-cogs fa-fw"></i></a>
+            <a href="#" class="btn btn-warning" id="mute-button">
+              <span class="fa-stack fa-1x">
+                <i class="fa fa-volume fa-stack-1x"></i>
+                <span id="ban-area"></span>
+              </span>
+          </a>
+            <a href="#" class="btn btn-success"><span id="points"></span> <i class="fa fa-coins fa-fw"></i></a>
+          </div>
+        </p>
+      </div>
+      <div class="col-sm-2">
+        <p class="text-right">
+          <div class="btn-group" role="group" aria-label="Basic example">
+                  <!--<a href="https://stackoverflow.com/users/login"
+                      class="login-link s-btn s-btn__filled py8 js-gps-track"
+                      rel="nofollow"
+                      data-gps-track="login.click"
+                      data-ga="[&quot;top navigation&quot;,&quot;login button click&quot;,null,null,null]">
+                      Log in
+                  </a>
+                  <a href="https://stackoverflow.com/users/signup"
+                      class="login-link s-btn s-btn__primary py8"
+                      rel="nofollow"
+                      data-ga="[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;Header&quot;,null,null]">
+                      Sign up
+                  </a>-->
+            <?php
+            if(!isset($_SESSION['user']))
+            {
+              ?>
+                <a href="./test/"
+                class="btn btn-info" id="configuracao">
+                Log in
+                </a>
+                <a href="./Signup/"
+                class="btn btn-warning">
+                Sign up
+                </a>
+              <?php
+            }
+            else {
+              $logedInUsername = $_SESSION['user'];
+              ?>
+              <a href="#"><strong><?php echo $logedInUsername; ?></strong>
+              </a>
+              <a href="index.php?logout=1"
+              class="btn btn-primary">
+              Logout
+              </a>
+              <?php
+            }
+            ?>
+
+          </div>
+        </p>
+      </div>
+    </div>   
+    <head>
+    <script type="text/javascript" src="LICHAM_FinalVersion.js" ></script>
+  </head>
+    
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card sm-4 box-shadow">
+          <div class="card-body">
+            <p class="card-text"><b id="question-quote"></b></p>
+
+            <form>
+
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action" data-js="anwer-zero" id="anwer0">
+                  <input class="form-check-input" required="true" type="radio" name="a" id="a-0" value="0"
+                    data-js="anwer-zero">
+                  <label for="a-0" data-js="anwer-zero"><span class="anwer-text" id="anwer-zero"
+                      data-js="anwer-zero"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-js="anwer-one" id="anwer1">
+                  <input class="form-check-input" type="radio" name="a" id="a-1" value="1" data-js="anwer-one">
+                  <label for="a-1" data-js="anwer-one"><span class="anwer-text" id="anwer-one"
+                      data-js="anwer-one"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-js="anwer-two" id="anwer2">
+                  <input class="form-check-input" type="radio" name="a" id="a-2" value="2" data-js="anwer-two">
+                  <label for="a-2" data-js="anwer-two"><span class="anwer-text" id="anwer-two"
+                      data-js="anwer-two"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action" data-js="anwer-three" id="anwer3">
+                  <input class="form-check-input" type="radio" name="a" id="a-3" value="3" data-js="anwer-three">
+                  <label for="a-3" data-js="anwer-three"><span class="anwer-text" id="anwer-three"
+                      data-js="anwer-three"></span></label>
+                </a>
+              </div>
+              <button type="submit" class="btn btn-sm btn-info btn-block"> <i class="fa fa-check fa-fw"></i>
+                answer</button>
+
+              <a id="finish" class="btn btn-sm btn-success btn-block text-white"> <i class="fa fa-flag fa-fw"></i>
+                finish</a>
+            </form>
+
+
+
+            <hr>
+
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <a id="previous" type="button" class="btn btn-secondary">Previous</a>
+                  <a id="next" type="button" class="btn btn-secondary">Next</a>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p class="text-right text-muted">
+                  <span id="current-question"></span>/<span id="number-of-questions"></span>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <a href="#" class="btn btn-block btn-primary" id="share"><i class="fa fa-share-alt fa-fw"></i>share</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="close">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary close-modal" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="config-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> <i class="fa fa-cogs fa-fw"></i> Quiz Configuration</h5>
+          <button type="button" class="close close-config-modal" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form id="config-form">
+            <label class="sr-only" for="category">Category</label>
+            <select name="category" class="form-control">
+              <option value="9">General Knowledge</option>
+              <option value="10">Entertainment: Books</option>
+              <option value="11">Entertainment: Film</option>
+              <option value="12">Entertainment: Music</option>
+              <option value="13">Entertainment: Musicals &amp; Theatres</option>
+              <option value="14">Entertainment: Television</option>
+              <option value="15">Entertainment: Video Games</option>
+              <option value="16">Entertainment: Board Games</option>
+              <option value="17">Science &amp; Nature</option>
+              <option value="18">Science: Computers</option>
+              <option value="19">Science: Mathematics</option>
+              <option value="20">Mythology</option>
+              <option value="21">Sports</option>
+              <option value="22">Geography</option>
+              <option value="23">History</option>
+              <option value="24">Politics</option>
+              <option value="25">Art</option>
+              <option value="26">Celebrities</option>
+              <option value="27">Animals</option>
+              <option value="28">Vehicles</option>
+              <option value="29">Entertainment: Comics</option>
+              <option value="30">Science: Gadgets</option>
+              <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+              <option value="32">Entertainment: Cartoon &amp; Animations</option>
+            </select>
+            <br>
+            <label class="sr-only" for="difficulty">Difficulty</label>
+            <select name="difficulty" class="form-control">
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <br>
+            <input type="number" name="numberOfQuestions" id="numberOfQuestions" class="form-control" min="1" max="50"
+              value="10" placeholder="Number of Questions">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary close-modal close-config-modal">Change</button>
+      </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+  <audio id="error-audio">
+    <source src="./assets/sounds/error.mp3" type="audio/mp3">
+    <source src="./assets/sounds/error.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="success-audio">
+    <source src="./assets/sounds/success.mp3" type="audio/mp3">
+    <source src="./assets/sounds/success.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+
+
+  <script src="./assets/app.js"></script>
+</body>
+
+</html>
