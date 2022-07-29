@@ -3,8 +3,6 @@
 
 Web game trò chơi câu đố sử dụng opendb.com api
 
-![Game Quiz](./assets/Screenshot.png)
-
 ## Cách sử dụng
 
 Để chạy chương trình, dùng lệnh git clone https://github.com/VuMinhCong/TiengNhatChuyenNganh2/tree/master/Quiz_Web.git 
